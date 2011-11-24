@@ -85,16 +85,8 @@ public class GetWebsite {
 			allPages.add(lens);
 		}
 		
-		Collections.sort(allPages);
+//		Collections.sort(allPages);
 		
-		System.out.println("------------------------");
-		for(Lens lens : allPages){
-			System.out.println("Produkt: " + lens.getLens());
-			System.out.println("Pris: " + lens.getPrice()+lens.getMonetaryUnit());
-			System.out.println("LŠnk: " + lens.getUrl());
-			System.out.println("------------------------");
-		}
-		System.out.println("Antal objekt: "+allPages.size());
 	}
 	
 	
@@ -157,9 +149,5 @@ public class GetWebsite {
 			br.close();
 		}
 		return sb;
-	}
-
-	public static void main (String[] args) throws Exception{
-		GetWebsite gw = new GetWebsite();
 	}
 }

@@ -1,8 +1,10 @@
 package GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -11,46 +13,42 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import GetWebsite.GetWebsite;
+import GetWebsite.Lens;
+
 public class MainWindow extends JPanel{
 	JList list;
 
-	  DefaultListModel model;
+	DefaultListModel model;
 
-	  int counter = 15;
+	public MainWindow() throws Exception {
+		
+		GetWebsite gw = new GetWebsite();
+		List<Lens> allPages = gw.getAllPages();
+		
+		setLayout(new BorderLayout());
+		model = new DefaultListModel();
+		
+//		list.setPreferredSize(new Dimension(500,800));
+		
+		
+		for (Lens lens : allPages){
+			model.addElement(lens.getLens());
+		}
 
-	  public MainWindow() {
-	    setLayout(new BorderLayout());
-	    model = new DefaultListModel();
-	    list = new JList(model);
-	    JScrollPane pane = new JScrollPane(list);
-	    JButton addButton = new JButton("Add Element");
-	    JButton removeButton = new JButton("Remove Element");
-	    for (int i = 0; i < 15; i++)
-	      model.addElement("Element " + i);
+		list = new JList(model);
+		JScrollPane pane = new JScrollPane(list);
+		int height = (int) Math.round(17.1*model.getSize());
+		pane.setPreferredSize(new Dimension(500,height));
+		add(pane, BorderLayout.NORTH);
+	}
 
-	    addButton.addActionListener(new ActionListener() {
-	      public void actionPerformed(ActionEvent e) {
-	        model.addElement("Element " + counter);
-	        counter++;
-	      }
-	    });
-	    removeButton.addActionListener(new ActionListener() {
-	      public void actionPerformed(ActionEvent e) {
-	        if (model.getSize() > 0)
-	          model.removeElementAt(0);
-	      }
-	    });
-
-	    add(pane, BorderLayout.NORTH);
-	    add(addButton, BorderLayout.WEST);
-	    add(removeButton, BorderLayout.EAST);
-	  }
-
-	  public static void main(String s[]) {
-	    JFrame frame = new JFrame("List Model Example");
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setContentPane(new MainWindow());
-	    frame.setSize(260, 200);
-	    frame.setVisible(true);
-	  }
+	public static void main(String s[]) throws Exception {
+		JFrame frame = new JFrame("List Model Example");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setContentPane(new MainWindow());
+//		frame.setSize(500, 800);
+		frame.pack();
+		frame.setVisible(true);
+	}
 }
