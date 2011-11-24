@@ -44,7 +44,7 @@ public class MainWindow extends JPanel{
 	}
 
 	public static void main(String s[]) throws Exception {
-		JFrame frame = new JFrame("List Model Example");
+		JFrame frame = new JFrame("Auction Finder");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(new MainWindow());
 //		frame.setSize(500, 800);
