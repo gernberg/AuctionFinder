@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Collections;
@@ -70,6 +72,7 @@ public class MainWindow extends JFrame{
 		
 		getButton.addActionListener(lh);
 		list.addMouseListener(lh);
+		list.addKeyListener(lh);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
@@ -77,7 +80,7 @@ public class MainWindow extends JFrame{
 		
 	}
 	
-	class ListenerHelper implements ActionListener, MouseListener{
+	class ListenerHelper implements ActionListener, MouseListener, KeyListener{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			Runnable runnable = new Runnable() {
@@ -128,13 +131,53 @@ public class MainWindow extends JFrame{
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			System.out.println("Valt: "+list.getSelectedValue());
-			Lens selectedLens = null;
+			Lens selectedLens = getLens();
+			updateLabels(selectedLens);
+		}
+
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+			if(arg0.getKeyCode()== KeyEvent.VK_DOWN){
+				Lens selectedLens = getLens();
+				updateLabels(selectedLens);
+			}
+			else if(arg0.getKeyCode()== KeyEvent.VK_UP){
+				Lens selectedLens = getLens();
+				updateLabels(selectedLens);
+			}
+		}
+
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
+	public static void main(String s[]) throws Exception {
+		new MainWindow("Auction Finder");
+	}
+
+	public Lens getLens() {
+		Lens selectedLens = null;
+		if(allPages != null){
 			for(Lens lens:allPages){
 				if(lens.getLens().equals(list.getSelectedValue())){
 					selectedLens = lens;
 				}
 			}
+		}
+		return selectedLens;
+	}
+
+	public void updateLabels(Lens selectedLens) {
+		if(selectedLens != null){
 			final String stringPrice = Integer.toString(selectedLens.getPrice()).concat(selectedLens.getMonetaryUnit());
 			final String stringUrl = selectedLens.getUrl();
 
@@ -147,9 +190,5 @@ public class MainWindow extends JFrame{
 				}
 			});
 		}
-	}
-	
-	public static void main(String s[]) throws Exception {
-		new MainWindow("Auction Finder");
 	}
 }

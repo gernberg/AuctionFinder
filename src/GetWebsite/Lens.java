@@ -3,15 +3,12 @@ package GetWebsite;
 public class Lens implements Comparable<Lens>{
 	private String lens;
 	private String url;
-	private String urlOrigin;
 	private int price;
 	private String monetaryUnit;
 
-
 	public Lens(String lens, String url, String urlOrigin, int price, String monetaryUnit){
 		setLens(lens);
-		setUrl(url);
-		setUrlOrigin(urlOrigin);
+		setUrl(url, urlOrigin);
 		setPrice(price);
 		setMonetaryUnit(monetaryUnit);
 	}
@@ -38,14 +35,14 @@ public class Lens implements Comparable<Lens>{
 		return url;
 	}
 
-	private void setUrl(String url) {
+	private void setUrl(String url, String urlOrigin) {
 		// Då fotosidan saknar http://fotosidan... bör det läggas till när lens-objektet skapas
-		if(url.contains("fotosidan")){
+		if(urlOrigin.contains("fotosidan")){
 			String tempUrl = "http://www.fotosidan.se";
 			tempUrl = tempUrl.concat(url);
 			url = tempUrl;
 		}
-		else if(url.contains("tradera")){
+		else if(urlOrigin.contains("tradera")){
 			String tempUrl = "http://www.tradera.com";
 			tempUrl = tempUrl.concat(url);
 			url = tempUrl;
@@ -74,13 +71,4 @@ public class Lens implements Comparable<Lens>{
 		int anotherLensPrice = ((Lens) anotherLens).getPrice();
 		return this.price - anotherLensPrice;
 	}
-
-	public String getUrlOrigin() {
-		return urlOrigin;
-	}
-
-	public void setUrlOrigin(String urlOrigin) {
-		this.urlOrigin = urlOrigin;
-	}
-	
 }
