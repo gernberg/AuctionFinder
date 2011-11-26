@@ -113,19 +113,7 @@ public class GetWebsite {
 			String priceFound = m.group(3).replaceAll("\\s", "");
 			int price = Integer.valueOf(priceFound);
 			String monUnitFound = m.group(4);
-			
-			// Då fotosidan saknar http://fotosidan... bör det läggas till när lens-objektet skapas
-			if(url.contains("fotosidan")){
-				String tempUrl = "http://www.fotosidan.se";
-				tempUrl = tempUrl.concat(urlFound);
-				urlFound = tempUrl;
-			}
-			else if(url.contains("tradera")){
-				String tempUrl = "http://www.tradera.com";
-				tempUrl = tempUrl.concat(urlFound);
-				urlFound = tempUrl;
-			}
-			returnList.add(new Lens(productFound, urlFound, price, monUnitFound));
+			returnList.add(new Lens(productFound, urlFound, url, price, monUnitFound));
 		}		
 		return returnList;
 	}
