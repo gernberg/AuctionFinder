@@ -12,56 +12,65 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import GetWebsite.GetWebsite;
 import GetWebsite.Lens;
+
 /*
  * TODO: Vore snyggt med laddruta/progressbar när data laddas ned
  * TODO: Fönster med mer info när man klickar på item i listan
  */
-public class MainWindow extends JPanel{
+public class MainWindow extends JFrame{
 	JList list;
 	DefaultListModel model;
 	GetWebsite gw;
 	List<Lens> allPages;
+	JPanel panel;
+	JLabel pris;
+	JLabel url;
 
-	public MainWindow() throws Exception {
+	public MainWindow(final String title) throws Exception {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				createAndShowGUI();
+				createAndShowGUI(title);
 			}
 		});
 		model = new DefaultListModel();
 		allPages = null;
 	}
 
-	protected void createAndShowGUI() {
-		final JFrame frame = new JFrame("Auction Finder");
+	protected void createAndShowGUI(String title) {
+		this.setTitle(title);
 		final JButton getButton = new JButton("Hämta data");
 		list = new JList();
 		final JScrollPane scrollPane = new JScrollPane(list);
-		
+		panel = new JPanel();
+		pris = new JLabel();
+		url = new JLabel();
+		panel.add(pris);
+		panel.add(url);
+		panel.setPreferredSize(new Dimension(500,100));
 		scrollPane.setPreferredSize(new Dimension(500,500));
 		
-		Container pane = frame.getContentPane();
+		Container pane = getContentPane();
 		pane.setLayout(new BorderLayout());
 		pane.add(getButton,BorderLayout.SOUTH);
 		pane.add(scrollPane, BorderLayout.NORTH);
+		pane.add(panel,BorderLayout.EAST);
 		
 		ListenerHelper lh = new ListenerHelper();
 		
 		getButton.addActionListener(lh);
 		list.addMouseListener(lh);
 		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		pack();
+		setVisible(true);
 		
 	}
 	
@@ -120,12 +129,23 @@ public class MainWindow extends JPanel{
 					selectedLens = lens;
 				}
 			}
+			final String stringPrice = Integer.toString(selectedLens.getPrice()).concat(selectedLens.getMonetaryUnit());
+			final String stringUrl = selectedLens.getUrl();
+
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					pris.setText("Kostar: "+stringPrice);
+					url.setText("URL: "+stringUrl);
+				}
+			});
+			panel.revalidate();
 			System.out.println("Kostar: "+selectedLens.getPrice()+selectedLens.getMonetaryUnit());
 			System.out.println("URL: "+selectedLens.getUrl());
 		}
 	}
 	
 	public static void main(String s[]) throws Exception {
-		new MainWindow();
+		new MainWindow("Auction Finder");
 	}
 }
