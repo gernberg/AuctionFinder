@@ -3,15 +3,14 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Collections;
 import java.util.List;
 
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -88,6 +87,9 @@ public class MainWindow extends JFrame{
 					try {
 						gw = new GetWebsite();
 						allPages = gw.getAllPages();
+						
+						// Sortera på pris
+						Collections.sort(allPages);
 					} catch (Exception e) {
 					}
 					
@@ -136,6 +138,7 @@ public class MainWindow extends JFrame{
 			final String stringPrice = Integer.toString(selectedLens.getPrice()).concat(selectedLens.getMonetaryUnit());
 			final String stringUrl = selectedLens.getUrl();
 
+			// Uppdatera textlables
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
@@ -143,9 +146,6 @@ public class MainWindow extends JFrame{
 					url.setText("URL: "+stringUrl);
 				}
 			});
-			panel.revalidate();
-			System.out.println("Kostar: "+selectedLens.getPrice()+selectedLens.getMonetaryUnit());
-			System.out.println("URL: "+selectedLens.getUrl());
 		}
 	}
 	
