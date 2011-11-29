@@ -161,5 +161,6 @@ public class GetWebsite {
 
 	public static void main (String[] args) throws Exception{
 		GetWebsite gw = new GetWebsite();
+		System.out.println("It's on!");
 	}
 }
